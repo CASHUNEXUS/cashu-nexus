@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<meta name="description" content="Cashu Nexus v1 foundation preview — engineering progress and safety status.">
+<title>Cashu Nexus — v1 Foundation Preview</title>
+<link rel="icon" href="nexus-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.preview{max-width:980px;margin:0 auto;padding:54px 28px 80px}
+.preview-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:46px}
+.preview-brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:800;letter-spacing:.12em}
+.preview-brand img{width:42px;height:42px}
+.back{color:var(--blue2);text-decoration:none;font-size:13px}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid #604a28;background:#241c12;color:#ffd28a;border-radius:99px;padding:8px 12px;font:10px var(--mono);letter-spacing:.08em}
+.tag i{width:7px;height:7px;border-radius:50%;background:#f3b45e}
+h1{font-size:clamp(38px,7vw,66px);line-height:1.02;letter-spacing:-.06em;margin:18px 0}
+.lead{color:var(--muted);font-size:16px;line-height:1.8;max-width:680px}
+.preview-card{background:linear-gradient(135deg,#121e32,#0e1420);border:1px solid var(--line);border-radius:24px;padding:26px;margin:24px 0}
+.preview-card h2{margin:0 0 10px;font-size:20px}.preview-card p{color:var(--muted);line-height:1.75;margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0}
+.item{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:20px}
+.item small{font:10px var(--mono);letter-spacing:.1em;color:var(--blue2)}
+.item h3{font-size:16px;margin:10px 0 7px}.item p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}
+.state{display:inline-block;border-radius:99px;padding:5px 9px;font:10px var(--mono);margin-top:12px;background:#142b23;color:#9be5c0}
+.state.pending{background:#2b2418;color:#ffd28a}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.actions a{display:inline-block;text-decoration:none;border-radius:12px;padding:12px 16px;background:#477dff;color:white;font-weight:700;font-size:13px}
+.actions a.secondary{background:#172235;color:var(--ice);border:1px solid var(--line)}
+.warning{border-color:#5a4526;background:#1b1711}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-top:20px;color:var(--muted);font:10px var(--mono);letter-spacing:.08em}
+@media(max-width:640px){.preview{padding:28px 17px 60px}.grid{grid-template-columns:1fr}.preview-top{margin-bottom:32px}.preview-card{padding:20px}}
+</style>
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<main class="preview">
+<header class="preview-top">
+<a class="preview-brand" href="index.html"><img src="nexus-mark.svg" alt=""> CASHU NEXUS</a>
+<a class="back" href="index.html">← Back to concept app</a>
+</header>
+<div class="eyebrow">ENGINEERING UPDATE · NOVEMBER 2026</div>
+<span class="tag"><i></i> ALPHA FOUNDATION · NOT A LIVE WALLET</span>
+<h1>Version 1<br>is taking shape.</h1>
+<p class="lead">The first Cashu SDK foundation is now in the development branch. This preview shows what has been built and what still needs to happen before Cashu Nexus can safely handle ecash.</p>
+<section class="preview-card">
+<div class="eyebrow">CURRENT STATUS</div><h2>Foundation is online. Wallet operations are not.</h2>
+<p>Cashu Nexus v1 currently has a pinned SDK, secure mint-URL validation, a public mint metadata loader, and a local token-inspection helper. It does not receive, store, send, or redeem funds. No real balance is available here.</p>
+<div class="actions">
+<a href="https://github.com/CASHUNEXUS/cashu-nexus/tree/v1.0-foundation">Explore v1 source</a>
+<a class="secondary" href="https://github.com/CASHUNEXUS/cashu-nexus/actions">View automated checks</a>
+</div>
+</section>
+<div class="grid">
+<article class="item"><small>01 · SDK FOUNDATION</small><h3>Cashu TypeScript SDK</h3><p>Version 4.13.1 is pinned exactly. The adapter creates an in-memory wallet and loads public mint metadata.</p><span class="state">IMPLEMENTED</span></article>
+<article class="item"><small>02 · MINT SAFETY</small><h3>URL validation</h3><p>HTTPS is required for remote mints. Plain HTTP is permitted only for localhost development.</p><span class="state">IMPLEMENTED</span></article>
+<article class="item"><small>03 · TOKEN INSPECTION</small><h3>Local metadata preview</h3><p>A helper decodes a token locally and exposes only mint, unit, amount, and proof count—not proof secrets.</p><span class="state">UNIT TESTS PASS</span></article>
+<article class="item"><small>04 · AUTOMATION</small><h3>GitHub Actions</h3><p>Syntax and unit-test workflows run automatically on branch updates. The manual Testnut connection smoke test has not yet been run.</p><span class="state pending">SMOKE TEST PENDING</span></article>
+</div>
+<section class="preview-card warning">
+<div class="eyebrow">SAFETY GATE</div><h2>Why receiving is not switched on yet</h2>
+<p>Receiving ecash can involve swapping proofs at a mint. Without durable encrypted proof storage, atomic state changes, duplicate-token protection, and crash recovery, a user could lose funds. Those safeguards must be designed and tested before enabling receive or send.</p>
+</section>
+<section class="preview-card">
+<div class="eyebrow">NEXT MILESTONES</div><h2>What comes next</h2>
+<p>1. Design encrypted proof storage and recovery.<br>2. Add atomic proof-state handling and duplicate-token protection.<br>3. Build receive/send flows against an isolated test mint.<br>4. Add end-to-end tests, dependency auditing, a threat model, and independent security review.</p>
+</section>
+<footer>CASHU NEXUS · V1 FOUNDATION PREVIEW · NO REAL FUNDS · OPEN SOURCE</footer>
+</main>
+</body></html>
