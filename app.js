@@ -28,7 +28,7 @@ function toast(message){ const node=$('#toast'); node.textContent=message; node.
 function go(view){
   const target=$('#'+view); if(!target) return;
   $$('.view').forEach(section=>section.classList.toggle('active',section.id===view));
-  $$('[data-view]').forEach(button=>button.classList.toggle('active',button.dataset.view===view));
+  $('[data-view]').forEach(button=>{const isActive=button.dataset.view===view;button.classList.toggle('active',isActive);if(isActive)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
   $('#crumb').textContent=view.charAt(0).toUpperCase()+view.slice(1);
   history.replaceState(null,'','#'+view);
   window.scrollTo({top:0,behavior:'smooth'});
