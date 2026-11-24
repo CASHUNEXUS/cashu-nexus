@@ -37,14 +37,14 @@ export async function connectMint(input, { unit = DEFAULT_UNIT } = {}) {
     throw new Error("This initial adapter currently supports sat units only.");
   }
 
-  const wallet = new Wallet(mintUrl, unit);
+  const wallet = new Wallet(mintUrl);
   await wallet.loadMint();
 
-  const info = wallet.getMintInfo();
+  const mintInfoCache = wallet.getMintInfo().cache;
   return {
     mintUrl,
     unit,
-    info: info?.mintInfo ?? info ?? null,
+    mintInfoCache,
     wallet
   };
 }
