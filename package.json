@@ -1,0 +1,13 @@
+{
+  "name": "cashu-nexus",
+  "version": "1.0.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "description": "Cashu Nexus wallet foundation and interface prototype",
+  "scripts": {
+    "check": "node --check src/cashu/mint-client.js"
+  },
+  "dependencies": {
+    "@cashu/cashu-ts": "4.13.1"
+  }
+}
