@@ -17,7 +17,7 @@ export function validateMintUrl(input) {
     throw new Error("Enter a valid mint URL.");
   }
 
-  const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
+  const isLocalHost = ["localhost", "127.0.0.1", "::1", "[::1]"].includes(url.hostname);
   if (url.protocol !== "https:" && !(isLocalHost && url.protocol === "http:")) {
     throw new Error("For safety, mint connections must use HTTPS (HTTP is allowed only for localhost testing).");
   }
