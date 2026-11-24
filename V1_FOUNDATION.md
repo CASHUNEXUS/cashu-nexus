@@ -23,3 +23,13 @@
 ## Release rule
 
 The product must continue to display **NOT A LIVE WALLET** until key custody, proof management, recovery, transaction operations, integration tests, and a security review are complete. A successful metadata connection is not proof that funds can be safely held or transferred.
+
+## Automated checks
+
+The foundation now includes a Node.js test suite for mint URL validation and
+adapter guardrails. GitHub Actions runs the syntax check and unit tests on
+pushes to this branch and on pull requests.
+
+These checks do not prove that a mint is trustworthy, audit the SDK, or
+authorize real-fund use. A successful CI run is only a baseline engineering
+check; live mint integration and security review remain separate gates.
