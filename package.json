@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Cashu Nexus wallet foundation and interface prototype",
   "scripts": {
-    "check": "node --check src/cashu/mint-client.js"
+    "check": "node --check src/cashu/mint-client.js && npm test",
+    "test": "node --test"
   },
   "dependencies": {
     "@cashu/cashu-ts": "4.13.1"
