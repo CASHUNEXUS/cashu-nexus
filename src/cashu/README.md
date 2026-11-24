@@ -1,23 +1,26 @@
 # Cashu adapter foundation
 
-The v1.0 alpha pins @cashu/cashu-ts to 4.13.1 and provides a narrowly scoped mint adapter plus local, non-spending token inspection.
+The v1.0 alpha pins @cashu/cashu-ts to 4.13.1 and provides a narrowly scoped mint adapter, local non-spending token inspection, and an encrypted snapshot primitive.
 
 ## Current capability
 
 - Validates mint URLs (HTTPS required; HTTP only for localhost).
 - Creates an in-memory Cashu TS Wallet and loads public mint metadata.
 - Decodes a pasted token locally and returns only mint, unit, amount, and proof count.
-- The token inspector never returns proof secrets.
+- Provides an AES-256-GCM encrypted JSON snapshot envelope using PBKDF2-SHA256 (310,000 iterations), random salt, and random IV.
+- The token inspector never returns proof secrets; the encryption module does not persist data.
 
-## Not implemented
+## Critical limitations
 
-- Seed generation/import, key custody, or recovery.
-- Durable encrypted proof storage, proof-state reconciliation, atomic transitions, or crash recovery.
-- Token receive/swap, send, melt, or Lightning invoice integration.
-- Transaction history or balance accounting.
-- Production security review.
+- No seed generation/import, key custody, or recovery.
+- No durable storage adapter, proof-state reconciliation, atomic transitions, or crash recovery.
+- No token receive/swap, send, melt, or Lightning invoice integration.
+- No transaction history or balance accounting.
+- No production security review.
 
-IMPORTANT: do not add wallet.receive() to a user-facing flow until durable proof storage, atomic state transitions, crash recovery, duplicate-token prevention, and protocol-level tests are implemented. Receiving can swap proofs at the mint; returning proofs to the UI without safely persisting them can lose funds. Never use real funds in this alpha.
+The encrypted snapshot primitive is only a cryptographic building block. It is not yet connected to IndexedDB or a wallet flow. A passphrase can be lost or guessed; browser malware, XSS, compromised devices, and unsafe backups remain risks. Do not put real proofs or seed material into this alpha.
+
+IMPORTANT: do not add wallet.receive() to a user-facing flow until durable proof storage, atomic state transitions, crash recovery, duplicate-token prevention, and mint-state reconciliation are implemented. Receiving can swap proofs at the mint; returning proofs to the UI without safely persisting them can lose funds.
 
 ## Local setup
 
@@ -26,7 +29,7 @@ npm install
 npm run check
 ```
 
-The GitHub Pages app remains the clearly labelled v0.3.0 concept build. This adapter is on v1.0-foundation and is not bundled into the public site.
+The GitHub Pages app remains the clearly labelled v0.3.0 concept build. The v1.0 adapter is on v1.0-foundation and is not bundled into the public site.
 
 ## Safe connection smoke test
 
