@@ -1,35 +1,32 @@
 # Cashu Nexus 1.0 — foundation status
 
 **Status:** alpha foundation / not a usable wallet  
-**SDK:** `@cashu/cashu-ts@4.13.1`  
-**Branch:** `v1.0-foundation`
+**SDK:** @cashu/cashu-ts@4.13.1  
+**Branch:** v1.0-foundation
 
-## Delivered in this foundation
+## Delivered
 
-1. Pinned the Cashu TypeScript SDK to an exact version.
-2. Added a mint URL validator with HTTPS enforcement.
-3. Added an in-memory adapter that calls `Wallet.loadMint()` and reads public mint metadata.
-4. Documented the security boundary and what is not yet implemented.
+1. Exact SDK dependency pin.
+2. Mint URL validation with HTTPS enforcement.
+3. In-memory adapter loading public mint metadata.
+4. Local token inspection returning only mint, unit, amount, and proof count; proof secrets are not exposed.
+5. Automated tests for URL validation and token-inspection guardrails.
 
-## Next engineering gates
+## Not yet safe or implemented
 
-- [ ] Add a build pipeline and integrate the adapter behind an explicit developer/test mode.
-- [ ] Select and document a maintained test mint; verify its operator and test-only status.
-- [ ] Add automated tests for URL validation and mint connection failures.
-- [ ] Design proof storage, atomic state transitions, and crash-safe recovery before any value operation.
-- [ ] Implement receive/send/swap only with protocol-level tests and explicit confirmation states.
-- [ ] Add dependency auditing, CSP, threat model, and independent security review.
+- [ ] Durable encrypted proof storage and backup/recovery.
+- [ ] Atomic proof state transitions, in-flight locks, and crash recovery.
+- [ ] Safe receive flow with duplicate-token prevention and mint-state reconciliation.
+- [ ] Safe send/swap/melt flow with confirmation and replay protection.
+- [ ] Seed/key generation, custody, import/export, and recovery design.
+- [ ] Lightning invoice integration.
+- [ ] End-to-end protocol tests against an isolated development mint.
+- [ ] Dependency auditing, CSP, threat model, and independent security review.
 
 ## Release rule
 
-The product must continue to display **NOT A LIVE WALLET** until key custody, proof management, recovery, transaction operations, integration tests, and a security review are complete. A successful metadata connection is not proof that funds can be safely held or transferred.
+Keep **NOT A LIVE WALLET** visible until key custody, proof management, recovery, transaction operations, integration tests, and security review are complete. Metadata loading or local token decoding does not prove funds can be safely held or transferred.
 
 ## Automated checks
 
-The foundation now includes a Node.js test suite for mint URL validation and
-adapter guardrails. GitHub Actions runs the syntax check and unit tests on
-pushes to this branch and on pull requests.
-
-These checks do not prove that a mint is trustworthy, audit the SDK, or
-authorize real-fund use. A successful CI run is only a baseline engineering
-check; live mint integration and security review remain separate gates.
+GitHub Actions runs syntax checks and unit tests on pushes to this branch and pull requests. A separate manually triggered Testnut smoke workflow exists but has not yet been run. These checks do not audit the SDK, prove a mint trustworthy, or authorize real-fund use.
