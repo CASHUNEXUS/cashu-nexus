@@ -61,7 +61,7 @@ No production feature should be represented as complete until implemented agains
 - `index.html` — semantic application shell and screens.
 - `styles.css` — responsive design system and components.
 - `app.js` — local-only demo interactions and persistence.
-- `assets/nexus-mark.svg` — project mark.
+- `nexus-mark.svg` — project mark.
 - `DESIGN_NOTES.md` — product rationale, accessibility and limitations.
 - `DEMO_SCRIPT.md` — short walkthrough for reviewers.
 
