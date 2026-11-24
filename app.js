@@ -145,4 +145,63 @@ $('#helpButton').addEventListener('click',()=>$('#helpModal').classList.remove('
 function closeModal(){$('#helpModal').classList.add('hidden');}
 $('#closeHelp').addEventListener('click',closeModal);$('#gotIt').addEventListener('click',closeModal);$('#helpModal').addEventListener('click',event=>{if(event.target.id==='helpModal')closeModal();});
 document.addEventListener('keydown',event=>{if(event.key==='Escape')closeModal();});
-const initialView=location.hash.slice(1);render();if(initialView&&$('#'+initialView)?.classList.contains('view'))go(initialView);
+
+const ACCOUNT_KEY='cashu-nexus-demo-account-v1';
+let authMode='create';
+function setAuthMode(mode){
+  authMode=mode;
+  $('#authTitle').textContent=mode==='create'?'Create your demo account.':'Welcome back.';
+  $('#authSubmit').textContent=mode==='create'?'Create demo account →':'Sign in →';
+  $('#authToggle').textContent=mode==='create'?'Already registered? Sign in':'New here? Create a demo account';
+  $('#authPassword').autocomplete=mode==='create'?'new-password':'current-password';
+  $('#authError').textContent='';
+}
+$('#authToggle').addEventListener('click',()=>setAuthMode(authMode==='create'?'login':'create'));
+async function passwordDigest(value){
+  const bytes=new TextEncoder().encode(value);
+  const digest=await crypto.subtle.digest('SHA-256',bytes);
+  return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
+}
+function enterDemo(username){
+  $('#authScreen').classList.add('hidden');
+  $('#appShell').classList.remove('auth-hidden');
+  $('#userLabel').textContent='@'+username;
+  $('#userLabel').title=username;
+  render();
+  const initialView=location.hash.slice(1);
+  if(initialView&&$('#'+initialView)?.classList.contains('view'))go(initialView);
+}
+$('#authForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const username=$('#authUsername').value.trim();
+  const password=$('#authPassword').value;
+  if(!/^[a-zA-Z0-9_]{3,24}$/.test(username)){ $('#authError').textContent='Use 3–24 letters, numbers or underscores for your username.';return; }
+  if(password.length<4){ $('#authError').textContent='Password must be at least 4 characters.';return; }
+  const submit=$('#authSubmit');submit.disabled=true;
+  try{
+    const saved=JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null');
+    const normalized=username.toLowerCase();
+    const digest=await passwordDigest(password);
+    if(authMode==='create'){
+      if(saved){$('#authError').textContent='A demo account already exists in this browser. Sign in instead.';setAuthMode('login');return;}
+      localStorage.setItem(ACCOUNT_KEY,JSON.stringify({username,normalized,passwordHash:digest}));
+      toast('Demo account created');
+      enterDemo(username);
+    }else{
+      if(!saved||saved.normalized!==normalized||saved.passwordHash!==digest){$('#authError').textContent='Incorrect username or password.';return;}
+      enterDemo(saved.username);
+    }
+  }catch(error){$('#authError').textContent='Browser storage or secure hashing is unavailable.';}
+  finally{submit.disabled=false;}
+});
+$('#logoutButton').addEventListener('click',()=>{
+  $('#appShell').classList.add('auth-hidden');
+  $('#authScreen').classList.remove('hidden');
+  $('#authPassword').value='';
+  setAuthMode('login');
+});
+try{
+  const existing=JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null');
+  if(existing&&existing.username){setAuthMode('login');$('#authUsername').value=existing.username;}
+}catch(error){console.warn('Could not read demo account:',error);}
+
