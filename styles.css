@@ -16,3 +16,66 @@
 .logout-button{padding:9px 11px;font-size:9px}
 .app-shell.auth-hidden{display:none}
 @media(max-width:760px){.auth-card{padding:24px 20px}.user-label{display:none}.logout-button{padding:8px;font-size:8px}}
+
+
+/* Mobile layout refinement */
+@media(max-width:760px){
+  .app-shell{grid-template-columns:minmax(0,1fr);width:100%;min-width:0}
+  .main-area{min-width:0;width:100%;padding:16px 14px calc(105px + env(safe-area-inset-bottom))}
+  .topbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:24px}
+  .mobile-brand{font-size:10px;gap:6px}
+  .mobile-brand img{width:30px;height:30px}
+  .topbar > .text-button{display:none}
+  .topbar-right{margin-left:auto;gap:7px;min-width:0}
+  .demo-chip{font-size:7px;letter-spacing:.04em;padding:7px 8px;white-space:nowrap}
+  .icon-button{width:30px;height:30px;flex:none}
+  .logout-button{padding:7px 9px;font-size:8px;white-space:nowrap}
+  .page-heading{gap:12px}
+  .page-heading>div{min-width:0}
+  .page-heading h1{font-size:clamp(29px,8vw,36px);overflow-wrap:anywhere}
+  .page-heading p{font-size:11px;line-height:1.65}
+  .balance-card{width:100%;min-width:0;padding:20px 18px;min-height:190px}
+  .balance-content{min-width:0;max-width:100%}
+  .balance-number{font-size:clamp(32px,9vw,43px);overflow-wrap:anywhere}
+  .balance-number span{font-size:12px}
+  .balance-emblem{margin-right:2%;flex:none}
+  .quick-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .stat-card{min-width:0;padding:10px;gap:8px}
+  .stat-card:last-child{grid-column:1/-1}
+  .stat-card small{font-size:7px;letter-spacing:.02em}
+  .stat-card b{font-size:13px}
+  .content-grid,.form-layout,.mint-layout{grid-template-columns:minmax(0,1fr);min-width:0}
+  .panel{min-width:0;padding:16px}
+  .form-panel,.side-explainer{padding:17px}
+  .transaction{gap:8px}
+  .tx-meta{min-width:0}
+  .tx-meta small{max-width:100%}
+  .tx-amount{font-size:10px}
+  .activity-toolbar{min-width:0}
+  .activity-toolbar input,.activity-toolbar select,.text-input,.amount-wrap input{min-width:0;max-width:100%}
+  .mint-row{min-width:0;gap:8px}
+  .mint-row .mint-meta{min-width:0}
+  .remove-mint{flex:none}
+  .setting-row{min-width:0}
+  .setting-row .button{max-width:100%}
+  .mobile-nav{padding-left:max(5px,env(safe-area-inset-left));padding-right:max(5px,env(safe-area-inset-right));}
+  .mobile-nav button{flex:1;min-width:0;font-size:8px}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom));width:max-content;max-width:calc(100vw - 24px)}
+  .main-footer{overflow-wrap:anywhere;line-height:1.6}
+  #authScreen:not(.hidden) ~ .mobile-nav{display:none}
+}
+@media(max-width:390px){
+  .main-area{padding-left:11px;padding-right:11px}
+  .topbar{gap:7px}
+  .mobile-brand{font-size:9px;letter-spacing:.06em}
+  .topbar-right{gap:5px}
+  .demo-chip{font-size:6px;padding:6px}
+  .balance-card{padding:17px 14px}
+  .balance-number{font-size:34px}
+  .balance-emblem{display:none}
+  .quick-stats{grid-template-columns:1fr}
+  .stat-card:last-child{grid-column:auto}
+  .panel{padding:14px}
+  .form-panel,.side-explainer{padding:15px}
+  .mobile-nav button span{font-size:15px}
+}
