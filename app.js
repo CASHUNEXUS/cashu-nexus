@@ -14,6 +14,7 @@ const INITIAL_STATE = {
 };
 let state = loadState();
 let balanceHidden = false;
+let pendingReceive = 0;
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
 const fmt = value => Number(value).toLocaleString('en-US');
@@ -88,30 +89,39 @@ function render(){
 }
 $('#toggleBalance').addEventListener('click',()=>{balanceHidden=!balanceHidden;render();$('#toggleBalance').textContent=balanceHidden?'◎':'◉';});
 $('#previewSend').addEventListener('click',()=>{
-  const token=$('#tokenInput').value.trim();
-  if(!token){toast('Enter a sample placeholder first');$('#tokenInput').focus();return;}
-  if(!/^cashu/i.test(token)){toast('A Cashu token usually starts with “cashu”');return;}
-  $('#reviewNote').textContent=$('#sendNote').value.trim()||'No note';
+  const amount=Number($('#sendAmount').value);
+  if(!Number.isSafeInteger(amount)||amount<1||amount>state.balance){toast('Enter a valid amount within your demo balance');return;}
+  $('#reviewAmount').textContent=fmt(amount)+' sats';
+  $('#reviewNote').textContent=$('#sendNote').value.trim()||'No recipient / note';
   $('#sendReview').classList.remove('hidden');
-  $('#sendReview').scrollIntoView({behavior:'smooth',block:'nearest'});
 });
-$('#clearSend').addEventListener('click',()=>{$('#tokenInput').value='';$('#sendNote').value='';$('#sendReview').classList.add('hidden');toast('Form cleared');});
+$('#clearSend').addEventListener('click',()=>{$('#sendAmount').value='1000';$('#sendNote').value='';$('#sendReview').classList.add('hidden');});
 $('#addDemoSend').addEventListener('click',()=>{
+  const amount=Number($('#sendAmount').value);
+  if(!Number.isSafeInteger(amount)||amount<1||amount>state.balance){toast('Review the amount again');return;}
   const note=$('#sendNote').value.trim();
-  const amount=1000;
-  if(state.balance<amount){toast('Demo balance is too low');return;}
   state.balance-=amount;
-  state.tx.unshift({id:crypto.randomUUID?.()||String(Date.now()),name:'Demo send preview',note,detail:'Just now · local demo',amount:-amount,kind:'out',timestamp:Date.now()});
-  saveState();render();$('#sendReview').classList.add('hidden');$('#tokenInput').value='';$('#sendNote').value='';toast('Sample activity added — no payment sent');go('activity');
+  state.tx.unshift({id:globalThis.crypto?.randomUUID?.()||String(Date.now()),name:'Simulated payment sent',note,detail:'Completed locally · DEMO',amount:-amount,kind:'out',timestamp:Date.now()});
+  saveState();render();$('#sendReview').classList.add('hidden');$('#sendAmount').value='1000';$('#sendNote').value='';
+  toast('Demo send complete — no real payment occurred');go('activity');
 });
 $$('[data-amount]').forEach(button=>button.addEventListener('click',()=>{$('#receiveAmount').value=button.dataset.amount;$$('[data-amount]').forEach(b=>b.classList.toggle('selected',b===button));}));
 $('#makeRequest').addEventListener('click',()=>{
   const amount=Number($('#receiveAmount').value);
-  if(!Number.isSafeInteger(amount)||amount<1||amount>2100000000000000){toast('Enter a whole-number amount of sats');$('#receiveAmount').focus();return;}
-  const ref=(globalThis.crypto?.getRandomValues?Array.from(crypto.getRandomValues(new Uint8Array(5)),n=>n.toString(16).padStart(2,'0')).join('') : Math.random().toString(36).slice(2,12)).toUpperCase();
+  if(!Number.isSafeInteger(amount)||amount<1||amount>2100000000000000){toast('Enter a whole-number amount of sats');return;}
+  pendingReceive=amount;
+  const ref=Array.from(crypto.getRandomValues(new Uint8Array(5)),n=>n.toString(16).padStart(2,'0')).join('').toUpperCase();
   const note=$('#receiveNote').value.trim();
-  $('#requestCode').textContent='NEXUS-DEMO-REQUEST-'+amount+'-SATS-'+ref+(note?'\nNOTE: '+note:'')+'\nNOT A CASHU INVOICE';
+  $('#requestCode').textContent='NEXUS-DEMO-ONLY-'+amount+'-SATS-'+ref+(note?'\nNOTE: '+note:'')+'\nNOT A PAYMENT INVOICE';
   $('#requestResult').classList.remove('hidden');
+});
+$('#simulateReceive').addEventListener('click',()=>{
+  if(!pendingReceive){toast('Create a demo request first');return;}
+  const amount=pendingReceive,note=$('#receiveNote').value.trim();
+  state.balance+=amount;
+  state.tx.unshift({id:globalThis.crypto?.randomUUID?.()||String(Date.now()),name:'Simulated payment received',note,detail:'Completed locally · DEMO',amount,kind:'in',timestamp:Date.now()});
+  saveState();render();pendingReceive=0;$('#requestResult').classList.add('hidden');
+  toast('Demo funds added to your balance');go('overview');
 });
 $('#copyRequest').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('#requestCode').textContent);toast('Demo string copied');}catch(error){toast('Clipboard unavailable — select and copy the string');}});
 $('#addMint').addEventListener('click',()=>{
