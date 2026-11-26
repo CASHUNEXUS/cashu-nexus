@@ -163,3 +163,11 @@ body{background:radial-gradient(ellipse at 55% -10%,#28104a 0,transparent 42%),#
 @media screen and (min-width:761px) {
   .auth-screen { width:100%; max-width:none; }
 }
+
+
+/* Preserve separate auth and wallet screens on mobile */
+@media screen and (max-width:760px) {
+  .app-shell.auth-hidden { display:none !important; }
+  .auth-screen.auth-hidden { display:none !important; }
+  .app-shell:not(.auth-hidden) { display:block !important; }
+}
