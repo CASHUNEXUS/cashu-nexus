@@ -1,0 +1,103 @@
+/* Cashu Nexus dedicated mobile stylesheet — responsive layout override */
+@media (max-width: 760px) {
+  html, body { width:100%; max-width:100%; margin:0; overflow-x:hidden; }
+  body { min-height:100dvh; }
+  #authScreen:not(.hidden) {
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    justify-content:flex-start !important;
+    gap:14px !important;
+    width:100% !important;
+    max-width:none !important;
+    min-height:100dvh !important;
+    margin:0 !important;
+    padding:14px !important;
+  }
+  #authScreen.hidden { display:none !important; }
+  #authScreen .launch-promo, #authScreen .auth-card {
+    display:block !important;
+    position:relative !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:auto !important;
+    min-height:0 !important;
+    margin:0 !important;
+    flex:none !important;
+  }
+  #authScreen .launch-promo {
+    padding:18px 16px !important;
+    border-radius:18px !important;
+    overflow:hidden;
+  }
+  #authScreen .promo-top { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:7px; }
+  #authScreen .promo-mark img { width:58px !important; height:auto; }
+  #authScreen .promo-wordmark { font-size:clamp(25px,7vw,32px) !important; text-align:center; }
+  #authScreen .promo-tagline { text-align:center; font-size:8px !important; }
+  #authScreen .promo-core { position:relative !important; top:auto !important; right:auto !important; width:min(42vw,145px) !important; margin:4px auto !important; }
+  #authScreen .promo-copy { width:100% !important; max-width:none !important; margin:10px 0 !important; text-align:center !important; }
+  #authScreen .promo-copy h1 { font-size:clamp(26px,7vw,34px) !important; line-height:1.08; }
+  #authScreen .promo-copy p { font-size:12px !important; line-height:1.6; }
+  #authScreen .promo-features { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:8px !important; width:100%; margin:12px 0 !important; }
+  #authScreen .promo-features > div { display:flex; min-width:0; padding:9px !important; gap:7px; }
+  #authScreen .promo-features strong { font-size:9px !important; }
+  #authScreen .promo-features small { font-size:8px !important; }
+  #authScreen .promo-coming { width:100% !important; padding:12px 8px !important; }
+  #authScreen .promo-coming strong { font-size:clamp(22px,6vw,28px) !important; }
+  #authScreen .promo-footer { font-size:7px !important; text-align:center; }
+  #authScreen .auth-card { padding:22px 18px !important; border-radius:18px !important; }
+  #authScreen .auth-card h1 { font-size:30px !important; }
+  #authScreen .auth-copy { font-size:12px !important; line-height:1.6; }
+  #authScreen .field-label { font-size:10px !important; margin:16px 0 8px !important; }
+  #authScreen .text-input { display:block; width:100% !important; min-width:0; min-height:48px; font-size:14px !important; }
+  #authScreen .button, #authScreen .auth-switch { width:100% !important; min-height:48px; font-size:13px !important; }
+  #authScreen .auth-disclaimer { font-size:9px !important; line-height:1.6; }
+  #appShell.auth-hidden { display:none !important; }
+  #appShell:not(.auth-hidden) { display:block !important; width:100% !important; min-width:0 !important; max-width:100% !important; margin:0 !important; }
+  #appShell .sidebar { display:none !important; }
+  #appShell .main-area { display:block; width:100% !important; max-width:none !important; min-width:0 !important; margin:0 !important; padding:14px 12px calc(92px + env(safe-area-inset-bottom)) !important; }
+  #appShell .topbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:20px; }
+  #appShell .breadcrumb { display:none !important; }
+  #appShell .topbar > .text-button { display:none !important; }
+  #appShell .topbar-right { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; margin-left:auto; }
+  #appShell .demo-chip { display:none !important; }
+  #appShell .user-label { max-width:32vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #appShell .page-heading { display:flex; flex-direction:column; align-items:flex-start; gap:10px; margin-bottom:18px; }
+  #appShell .page-heading h1 { font-size:clamp(28px,8vw,36px); }
+  #appShell .page-heading p { font-size:12px; line-height:1.5; }
+  #appShell .balance-card { width:100% !important; min-width:0; min-height:0; padding:20px 16px !important; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+  #appShell .balance-content { width:100%; min-width:0; }
+  #appShell .balance-number { font-size:clamp(34px,10vw,48px) !important; overflow-wrap:anywhere; }
+  #appShell .balance-emblem { display:none !important; }
+  #appShell .balance-actions { flex-wrap:wrap; }
+  #appShell .quick-stats { display:grid !important; grid-template-columns:1fr !important; gap:9px; width:100%; margin:12px 0; }
+  #appShell .stat-card { width:100%; min-width:0; padding:13px; }
+  #appShell .content-grid, #appShell .form-layout, #appShell .mint-layout { display:grid !important; grid-template-columns:minmax(0,1fr) !important; gap:12px !important; width:100%; }
+  #appShell .content-grid > *, #appShell .form-layout > *, #appShell .mint-layout > * { width:100% !important; max-width:100% !important; min-width:0 !important; }
+  #appShell .panel { width:100%; min-width:0; padding:15px 13px; }
+  #appShell .transaction { display:grid !important; grid-template-columns:34px minmax(0,1fr) !important; grid-template-rows:auto auto !important; align-items:start; gap:5px 9px; width:100%; min-width:0; padding:12px 0; }
+  #appShell .transaction .tx-icon { grid-column:1; grid-row:1 / span 2; }
+  #appShell .transaction .tx-meta { grid-column:2; grid-row:1; width:100%; min-width:0; }
+  #appShell .transaction .tx-meta small { white-space:normal !important; overflow-wrap:anywhere; }
+  #appShell .transaction .tx-amount { grid-column:2; grid-row:2; justify-self:start; max-width:100%; white-space:normal !important; overflow-wrap:anywhere; text-align:left; font-size:11px; }
+  #appShell .mint-mini, #appShell .mint-row { width:100%; min-width:0; }
+  #appShell .mint-meta { min-width:0; flex:1 1 auto; }
+  #appShell .mint-meta small, #appShell .mint-url { white-space:normal !important; overflow-wrap:anywhere; }
+  #appShell .bottom-feature-grid, #appShell .safety-grid { display:grid; grid-template-columns:1fr !important; gap:10px; }
+  #appShell .activity-toolbar { display:flex; flex-direction:column; width:100%; gap:9px; }
+  #appShell .activity-toolbar select { width:100%; }
+  #appShell .setting-row { display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
+  #appShell .setting-row > button { width:100%; }
+  #appShell .main-footer { display:flex; flex-direction:column; gap:8px; }
+  .mobile-nav { display:flex !important; position:fixed !important; z-index:25; left:0; right:0; bottom:0; width:100% !important; padding:7px 4px calc(7px + env(safe-area-inset-bottom)); justify-content:space-around; gap:2px; border-top:1px solid var(--line); background:#0a050eF2; backdrop-filter:blur(16px); }
+  .mobile-nav button { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-width:0; min-height:48px; border:0; background:transparent; font-size:10px; }
+  .mobile-nav button span { font-size:16px; }
+  .mobile-nav button.active { color:#dcaaff; }
+  #appShell .main-footer { padding-bottom:8px; }
+}
+@media (max-width:390px) {
+  #authScreen, #appShell .main-area { padding-left:10px !important; padding-right:10px !important; }
+  #authScreen .launch-promo, #authScreen .auth-card { padding:15px 12px !important; }
+  #authScreen .promo-features > div { padding:7px !important; }
+}
